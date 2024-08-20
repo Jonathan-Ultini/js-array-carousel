@@ -51,3 +51,39 @@ prevBtn.addEventListener('click', () => {
   }
   updateCarousel();
 });
+
+
+
+const thumbnailsContainer = document.querySelector('.thumbnails');
+
+// Generazione delle miniature
+images.forEach((image, index) => {
+  const thumbnail = document.createElement('img');
+  thumbnail.src = image;
+  thumbnail.alt = `Miniatura ${index + 1}`;
+  thumbnail.classList.add('thumbnail');
+  if (index === 0) thumbnail.classList.add('active');
+  thumbnailsContainer.appendChild(thumbnail);
+
+  // Aggiunta dell'evento click per sincronizzare le miniature con l'immagine grande
+  thumbnail.addEventListener('click', () => {
+    currentIndex = index;
+    updateCarousel(currentIndex);
+    updateThumbnails();
+  });
+});
+
+function updateThumbnails() {
+  const thumbnails = document.querySelectorAll('.thumbnail');
+  thumbnails.forEach((thumbnail, i) => {
+    thumbnail.classList.toggle('active', i === currentIndex);
+  });
+}
+
+// Aggiornamento delle miniature quando cambia l'immagine grande
+function updateCarousel(index) {
+  carouselImages.forEach((img, i) => {
+    img.classList.toggle('active', i === index);
+  });
+  updateThumbnails();
+}
