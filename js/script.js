@@ -20,16 +20,17 @@ for (let i = 0; i < images.length; i++) {
   carouselContainer.appendChild(imgElement);
 }
 
-
 let currentIndex = 0;
 const carouselImages = document.querySelectorAll('.carousel-img');
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 
-// Funzione per aggiornare l'immagine attiva
+// Funzione per aggiornare l'immagine attiva e le miniature
 function updateCarousel() {
-  document.querySelector('.carousel-img.active').classList.remove('active');
-  carouselImages[currentIndex].classList.add('active');
+  carouselImages.forEach((img, i) => {
+    img.classList.toggle('active', i === currentIndex);
+  });
+  updateThumbnails();
 }
 
 // Event listener per il pulsante "Next"
@@ -52,8 +53,6 @@ prevBtn.addEventListener('click', () => {
   updateCarousel();
 });
 
-
-
 const thumbnailsContainer = document.querySelector('.thumbnails');
 
 // Generazione delle miniature
@@ -68,22 +67,14 @@ images.forEach((image, index) => {
   // Aggiunta dell'evento click per sincronizzare le miniature con l'immagine grande
   thumbnail.addEventListener('click', () => {
     currentIndex = index;
-    updateCarousel(currentIndex);
-    updateThumbnails();
+    updateCarousel();
   });
 });
 
+// Funzione per aggiornare la classe 'active' sulle miniature
 function updateThumbnails() {
   const thumbnails = document.querySelectorAll('.thumbnail');
   thumbnails.forEach((thumbnail, i) => {
     thumbnail.classList.toggle('active', i === currentIndex);
   });
-}
-
-// Aggiornamento delle miniature quando cambia l'immagine grande
-function updateCarousel(index) {
-  carouselImages.forEach((img, i) => {
-    img.classList.toggle('active', i === index);
-  });
-  updateThumbnails();
 }
